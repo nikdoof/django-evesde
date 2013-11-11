@@ -1,5 +1,7 @@
+import imp
 from datetime import timedelta
 from django.utils.timezone import now
+from django.utils.module_loading import import_by_path
 from django.conf import settings
 from eveapi import EVEAPIConnection
 
@@ -39,5 +41,5 @@ class EVEAPICache(object):
 
 def get_api_connection():
     cache_handler = getattr(settings, 'EVE_SDE_CACHE_HANDLER', 'evesde.eveapi.EVEAPICache')
-
+    cache_obj = import_by_path(cache_handler)
     return EVEAPIConnection(cacheHandler=cache_obj)
