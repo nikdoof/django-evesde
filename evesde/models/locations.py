@@ -1,5 +1,8 @@
+from math import sqrt
 from django.db import models
-from .utils import InheritanceQuerySet
+from evesde.utils import euclidean_distance
+from evesde.app_defines import DISTANCE_LIGHT_YEAR
+from evesde.models.utils import InheritanceQuerySet
 
 
 class LocationManager(models.Manager):
@@ -131,6 +134,14 @@ class System(Location):
     @property
     def moons(self):
         return Moon.objects.filter(planet__in=self.planets.all())
+
+    def distance_to(self, destination):
+        """Calculates the ly distance between the two systems"""
+        if not isinstance(destination, System):
+            raise ValueError('Provided destination is not a System.')
+        origin = (self.x, self.y, self.z)
+        destination = (destination.x, destination.y, destination.z)
+        return euclidean_distance(origin, destination) / DISTANCE_LIGHT_YEAR
 
     class Meta:
         app_label = 'evesde'
