@@ -6,8 +6,8 @@ class InheritanceQuerySet(QuerySet):
     def select_subclasses(self, *subclasses):
         if not subclasses:
             subclasses = [o for o in dir(self.model)
-                          if isinstance(getattr(self.model, o), SingleRelatedObjectDescriptor)\
-                          and issubclass(getattr(self.model,o).related.model, self.model)]
+                          if isinstance(getattr(self.model, o), SingleRelatedObjectDescriptor)
+                          and issubclass(getattr(self.model, o).related.model, self.model)]
         new_qs = self.select_related(*subclasses)
         new_qs.subclasses = subclasses
         return new_qs
