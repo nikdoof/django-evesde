@@ -8,7 +8,7 @@ from eveapi import EVEAPIConnection
 from evesde.models.cache import EVEAPICache
 
 
-class EVEAPICache(object):
+class EVEAPICacheHandler(object):
 
     def hash(self, data):
         from hashlib import sha1
@@ -40,6 +40,6 @@ class EVEAPICache(object):
 
 
 def get_api_connection():
-    cache_handler = getattr(settings, 'EVE_SDE_CACHE_HANDLER', 'evesde.eveapi.EVEAPICache')
+    cache_handler = getattr(settings, 'EVE_SDE_CACHE_HANDLER', 'evesde.eveapi.EVEAPICacheHandler')
     cache_obj = import_by_path(cache_handler)
-    return EVEAPIConnection(cacheHandler=cache_obj)
+    return EVEAPIConnection(cacheHandler=cache_obj())

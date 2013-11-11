@@ -18,6 +18,9 @@ def import_conquerable_stations():
             obj = Station(pk=station.stationID)
         obj.name = station.stationName
         obj.system_id = station.solarSystemID
+        obj.x = 0
+        obj.y = 0
+        obj.z = 0
         objs.append(obj)
 
     with transaction.atomic():
